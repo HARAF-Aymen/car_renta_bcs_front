@@ -11,8 +11,10 @@
         e.preventDefault();
         try {
         const res = await login(email, password);
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('token', res.access_token);
         localStorage.setItem('role', res.role);
+        console.log('role from backend:', res.role);
+
 
         // Redirect based on role
         if (res.role === 'FLEET_ADMIN') navigate('/dashboard');

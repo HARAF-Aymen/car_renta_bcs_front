@@ -8,15 +8,10 @@
 
     const MainLayout = ({ children }: MainLayoutProps) => {
     return (
-        <div className="flex h-screen bg-gray-100">
-        {/* Sidebar */}
+        <div className="bg-gray-50 min-h-screen">
         <Sidebar />
-
-        {/* Main content */}
-        <div className="flex flex-col flex-1">
-            <Topbar />
-            <main className="p-4 overflow-y-auto flex-1">{children}</main>
-        </div>
+        <Topbar />
+        <main className="pt-20 pl-64 px-6">{children}</main>
         </div>
     );
     };

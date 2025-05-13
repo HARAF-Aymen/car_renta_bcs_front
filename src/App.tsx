@@ -17,6 +17,8 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './routes/ProtectedRoute';
+import VehiclesPage from './pages/VehiclesPage';
+
 
 const App = () => {
   return (
@@ -34,6 +36,16 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/vehicles"
+        element={
+          <ProtectedRoute allowedRoles={['FLEET_ADMIN', 'FOURNISSEUR']}>
+            <VehiclesPage />
+          </ProtectedRoute>
+        }
+      />
+
 
       {/* More protected routes can be added here for Fournisseur, User, etc. */}
     </Routes>

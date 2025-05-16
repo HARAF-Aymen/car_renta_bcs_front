@@ -18,6 +18,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './routes/ProtectedRoute';
 import VehiclesPage from './pages/VehiclesPage';
+import MissionsPage from './pages/MissionsPage';
 
 
 const App = () => {
@@ -42,6 +43,15 @@ const App = () => {
         element={
           <ProtectedRoute allowedRoles={['FLEET_ADMIN', 'FOURNISSEUR']}>
             <VehiclesPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/missions"
+        element={
+          <ProtectedRoute allowedRoles={['FLEET_ADMIN']}>
+            <MissionsPage />
           </ProtectedRoute>
         }
       />

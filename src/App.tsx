@@ -19,6 +19,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './routes/ProtectedRoute';
 import VehiclesPage from './pages/VehiclesPage';
 import MissionsPage from './pages/MissionsPage';
+import ContratsPage from './pages/ContratsPage';
 
 
 const App = () => {
@@ -52,6 +53,15 @@ const App = () => {
         element={
           <ProtectedRoute allowedRoles={['FLEET_ADMIN']}>
             <MissionsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/contracts"
+        element={
+          <ProtectedRoute allowedRoles={['FLEET_ADMIN']}>
+            <ContratsPage />
           </ProtectedRoute>
         }
       />

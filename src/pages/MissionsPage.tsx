@@ -84,22 +84,27 @@
                     <td className="px-4 py-2">{m.date_fin}</td>
                     <td className="px-4 py-2">{m.status}</td>
                     <td className="px-4 py-2">{m.created_at}</td>
-                    <td className="px-4 py-2 flex gap-2">
+                    <td className="px-4 py-2">
+                    {m.status === 'EN_ATTENTE' ? (
+                        <div className="flex gap-2">
                         <button
-                        onClick={() => handleDecision(m.id, 'APPROUVEE')}
-                        className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                        disabled={m.status !== 'EN_ATTENTE'}
+                            onClick={() => handleDecision(m.id, 'APPROUVEE')}
+                            className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
                         >
-                        Approve
+                            Approve
                         </button>
                         <button
-                        onClick={() => handleDecision(m.id, 'REFUSEE')}
-                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                        disabled={m.status !== 'EN_ATTENTE'}
+                            onClick={() => handleDecision(m.id, 'REFUSEE')}
+                            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
                         >
-                        Refuse
+                            Refuse
                         </button>
+                        </div>
+                    ) : (
+                        <span className="text-gray-500 italic">No actions</span>
+                    )}
                     </td>
+
                     </tr>
                 ))}
                 {missions.length === 0 && (

@@ -20,6 +20,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import VehiclesPage from './pages/VehiclesPage';
 import MissionsPage from './pages/MissionsPage';
 import ContratsPage from './pages/ContratsPage';
+import AvailableVehiclesPage from './pages/AvailableVehiclesPage';
 
 
 const App = () => {
@@ -65,6 +66,18 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route 
+        path='/userdash'
+        element={
+          <ProtectedRoute allowedRoles={['USER']}>
+            <AvailableVehiclesPage />
+          </ProtectedRoute>
+        }
+      
+      />
+
+      
 
 
       {/* More protected routes can be added here for Fournisseur, User, etc. */}

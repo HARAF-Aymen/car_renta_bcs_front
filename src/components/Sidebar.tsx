@@ -2,9 +2,14 @@
         import { Home, Car, ClipboardList, FileText, Users, LogOut } from 'lucide-react';
         import { Link, useLocation, useNavigate } from 'react-router-dom';
         import classNames from 'classnames';
-        import { useState } from 'react';
+        import { useContext, useState } from 'react';
+        import { AuthContext } from '../context/AuthContext';
         
-        const role = localStorage.getItem('role');
+        // const role = localStorage.getItem('role');
+        
+        
+        const Sidebar = () => {
+            const { role } = useContext(AuthContext);
 
         const navItems = role === 'FLEET_ADMIN' ? [
         { to: '/dashboard', icon: <Home size={18} />, label: 'Dashboard' },
@@ -25,8 +30,6 @@
         ]
         
         : [];
-        
-        const Sidebar = () => {
         const location = useLocation();
         const navigate = useNavigate();
         const [showLogoutModal, setShowLogoutModal] = useState(false);

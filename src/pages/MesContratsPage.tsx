@@ -1,6 +1,7 @@
     import React, { useEffect, useState } from 'react';
     import axios from 'axios';
     import MainLayout from '../layouts/MainLayout';
+    import useAuthGuard from '../hooks/useAuthGuard';
 
     interface Contrat {
     id: number;
@@ -12,6 +13,7 @@
     }
 
     const MesContratsPage = () => {
+        useAuthGuard();
     const [contrats, setContrats] = useState<Contrat[]>([]);
     const [loading, setLoading] = useState(true);
 

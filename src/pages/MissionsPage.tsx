@@ -1,6 +1,7 @@
     import React, { useEffect, useState } from 'react';
     import MainLayout from '../layouts/MainLayout';
     import axios from 'axios';
+    import useAuthGuard from '../hooks/useAuthGuard';
 
     interface Mission {
     id: number;
@@ -13,6 +14,7 @@
     }
 
     const MissionsPage = () => {
+        useAuthGuard();
     const [missions, setMissions] = useState<Mission[]>([]);
     const [loading, setLoading] = useState(true);
 

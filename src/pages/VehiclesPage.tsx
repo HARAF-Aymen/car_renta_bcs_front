@@ -2,6 +2,7 @@
     import MainLayout from '../layouts/MainLayout';
     import axios from 'axios';
     import { ShieldCheck, Trash2 } from 'lucide-react';
+    import useAuthGuard from '../hooks/useAuthGuard';
 
     interface Vehicle {
     id: number;
@@ -20,6 +21,7 @@
     }
 
     const VehiclesPage = () => {
+        useAuthGuard();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [filtered, setFiltered] = useState<Vehicle[]>([]);
     const [marqueFilter, setMarqueFilter] = useState('');
@@ -35,11 +37,11 @@
         try {
             const res = await axios.get('http://localhost:5000/api/vehicules/', {
                 headers: {
-                  Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 withCredentials: true, // ✅ Needed to send the token cross-origin
-              });
-              
+            });
+                
             setVehicles(res.data);
             setFiltered(res.data);
         } catch (err) {

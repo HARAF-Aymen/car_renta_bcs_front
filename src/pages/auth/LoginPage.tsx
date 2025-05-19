@@ -1,25 +1,29 @@
-    import { useState } from 'react';
+    import { useState, useContext } from 'react';
     import { useNavigate } from 'react-router-dom';
     import { login } from '../../services/authService';
+    import { AuthContext } from '../../context/AuthContext';
 
     const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    const { setRole } = useContext(AuthContext); // ✅ utiliser le contexte réel
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
         const res = await login(email, password);
+        console.log("Réponse backend : ", res);
+
         localStorage.setItem('token', res.access_token);
         localStorage.setItem('role', res.role);
-        console.log('role from backend:', res.role);
+        setRole(res.role); // ✅ ici le vrai setter
 
-
-        // Redirect based on role
+        // Redirection selon le rôle
         if (res.role === 'FLEET_ADMIN') navigate('/dashboard');
-        else if (res.role === 'FOURNISSEUR') navigate('/contracts');
-        else navigate('/home');
+        else if (res.role === 'FOURNISSEUR') navigate('/mes-vehicles-fournisseur');
+        else navigate('/vehicules-disponibles');
         } catch (error) {
         alert('Login failed. Please check credentials.');
         }

@@ -21,6 +21,10 @@ import VehiclesPage from './pages/VehiclesPage';
 import MissionsPage from './pages/MissionsPage';
 import ContratsPage from './pages/ContratsPage';
 import AvailableVehiclesPage from './pages/AvailableVehiclesPage';
+import MesMissionsPage from './pages/MesMissionsPage';
+import MesContratsPage from './pages/MesContratsPage';
+import MesContratsFournisseurPage from './pages/MesContratsFournisseurPage';
+import MesVehiculesPage from './pages/MesVehiculesPage';
 
 
 const App = () => {
@@ -68,10 +72,50 @@ const App = () => {
       />
 
       <Route 
-        path='/userdash'
+        path='/vehicules-disponibles'
         element={
           <ProtectedRoute allowedRoles={['USER']}>
             <AvailableVehiclesPage />
+          </ProtectedRoute>
+        }
+      
+      />
+
+      <Route 
+        path='/mes-missions'
+        element={
+          <ProtectedRoute allowedRoles={['USER']}>
+            <MesMissionsPage />
+          </ProtectedRoute>
+        }
+      
+      />
+
+      <Route 
+        path='/mes-contrats'
+        element={
+          <ProtectedRoute allowedRoles={['USER']}>
+            <MesContratsPage />
+          </ProtectedRoute>
+        }
+      
+      />
+
+      <Route 
+        path='/mes-contrats-fournisseur'
+        element={
+          <ProtectedRoute allowedRoles={['FOURNISSEUR']}>
+            <MesContratsFournisseurPage />
+          </ProtectedRoute>
+        }
+      
+      />
+
+      <Route 
+        path='/mes-vehicles-fournisseur'
+        element={
+          <ProtectedRoute allowedRoles={['FOURNISSEUR']}>
+            <MesVehiculesPage />
           </ProtectedRoute>
         }
       

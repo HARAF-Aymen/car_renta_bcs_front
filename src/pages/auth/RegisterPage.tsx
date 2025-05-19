@@ -44,6 +44,7 @@
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
             />
+            
             <button
             type="submit"
             className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"

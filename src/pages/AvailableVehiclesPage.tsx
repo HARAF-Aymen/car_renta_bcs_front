@@ -222,7 +222,7 @@
                 const token = localStorage.getItem('token');
                 try {
                 await axios.post(
-                    'http://localhost:5000/api/missions',
+                    'http://localhost:5000/api/missions/',
                     {
                     vehicule_id: selectedVehicule.id,
                     date_debut: dateDebut,

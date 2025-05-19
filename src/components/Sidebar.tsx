@@ -4,13 +4,27 @@
         import classNames from 'classnames';
         import { useState } from 'react';
         
-        const navItems = [
+        const role = localStorage.getItem('role');
+
+        const navItems = role === 'FLEET_ADMIN' ? [
         { to: '/dashboard', icon: <Home size={18} />, label: 'Dashboard' },
         { to: '/vehicles', icon: <Car size={18} />, label: 'Vehicles' },
         { to: '/missions', icon: <ClipboardList size={18} />, label: 'Missions' },
         { to: '/contracts', icon: <FileText size={18} />, label: 'Contracts' },
         { to: '/users', icon: <Users size={18} />, label: 'Users' },
-        ];
+        ] 
+        : role === 'USER'
+        ?[
+            { to: '/vehicules-disponibles', icon: <Car size={18} />, label: 'Véhicules disponibles' },
+            { to: '/mes-missions', icon: <ClipboardList size={18} />, label: 'Mes missions' },
+            { to: '/mes-contrats', icon: <FileText size={18} />, label: 'Mes contrats' },
+        ] : role === 'FOURNISSEUR'
+        ? [
+            { to: '/mes-vehicles-fournisseur', icon: <Car size={18} />, label: 'Mes véhicules' },
+            { to: '/mes-contrats-fournisseur', icon: <FileText size={18} />,  label: 'Contrats loués' },
+        ]
+        
+        : [];
         
         const Sidebar = () => {
         const location = useLocation();

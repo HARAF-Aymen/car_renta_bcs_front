@@ -1,19 +1,43 @@
-    import { ReactNode } from 'react';
+    // import { ReactNode } from 'react';
+    // import Sidebar from '../components/Sidebar';
+    // import Topbar from '../components/Topbar';
+
+    // interface MainLayoutProps {
+    // children: ReactNode;
+    // }
+
+    // const MainLayout = ({ children }: MainLayoutProps) => {
+    // return (
+    //     <div className="bg-gray-50 min-h-screen">
+    //     <Sidebar />
+    //     <Topbar />
+    //     <main className="pl-64 pt-16 min-h-screen bg-gray-50">{children}</main>
+    //     </div>
+    // );
+    // };
+
+    // export default MainLayout;
+    import { ReactNode, useState } from 'react';
     import Sidebar from '../components/Sidebar';
     import Topbar from '../components/Topbar';
-
+    
     interface MainLayoutProps {
-    children: ReactNode;
+      children: ReactNode;
     }
-
+    
     const MainLayout = ({ children }: MainLayoutProps) => {
-    return (
+      const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    
+      return (
         <div className="bg-gray-50 min-h-screen">
-        <Sidebar />
-        <Topbar />
-        <main className="pt-20 pl-64 px-6">{children}</main>
+          <Sidebar isOpen={isSidebarOpen} />
+          <Topbar toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
+          <main className={`pt-16 transition-all duration-300 ${isSidebarOpen ? 'pl-64' : 'pl-20'}`}>
+            {children}
+          </main>
         </div>
-    );
+      );
     };
-
+    
     export default MainLayout;
+    

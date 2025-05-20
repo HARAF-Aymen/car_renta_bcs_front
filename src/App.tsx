@@ -12,6 +12,7 @@ import MesMissionsPage from './pages/MesMissionsPage';
 import MesContratsPage from './pages/MesContratsPage';
 import MesContratsFournisseurPage from './pages/MesContratsFournisseurPage';
 import MesVehiculesPage from './pages/MesVehiculesPage';
+import ProfilPage from './pages/ProfilPage';
 
 
 const App = () => {
@@ -108,7 +109,15 @@ const App = () => {
       
       />
 
-      
+      <Route
+        path="/profil"
+        element={
+          <ProtectedRoute allowedRoles={['USER', 'FLEET_ADMIN', 'FOURNISSEUR']}>
+            <ProfilPage />
+          </ProtectedRoute>
+        }
+      />
+
 
 
       {/* More protected routes can be added here for Fournisseur, User, etc. */}

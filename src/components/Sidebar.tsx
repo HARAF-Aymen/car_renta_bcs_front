@@ -25,7 +25,7 @@
                 const handleConfirmLogout = () => {
                 localStorage.removeItem('token');
                 setShowLogoutModal(false);
-                navigate('/login');
+                navigate('/');
                 };
             
                 const navItems =

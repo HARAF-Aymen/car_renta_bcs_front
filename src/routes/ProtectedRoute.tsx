@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
     interface ProtectedRouteProps {
     children: React.ReactNode;
-    allowedRoles?: string[]; // e.g., ['FLEET_ADMIN']
+    allowedRoles?: string[]; 
     }
 
     const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {

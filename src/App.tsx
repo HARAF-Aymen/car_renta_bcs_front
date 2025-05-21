@@ -13,7 +13,8 @@ import MesContratsPage from './pages/MesContratsPage';
 import MesContratsFournisseurPage from './pages/MesContratsFournisseurPage';
 import MesVehiculesPage from './pages/MesVehiculesPage';
 import ProfilPage from './pages/ProfilPage';
-
+import DemandesRecuesFournisseur from './pages/DemandesLocationFournisseurPage';
+import DemandesAccepteesPage from './pages/DemandesAccepteesPage';
 
 const App = () => {
   return (
@@ -117,6 +118,25 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/demandes-locations-reçues"
+        element={
+          <ProtectedRoute allowedRoles={['FOURNISSEUR']}>
+            <DemandesRecuesFournisseur />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/missions-approuvees"
+        element={
+          <ProtectedRoute allowedRoles={['FLEET_ADMIN']}>
+            <DemandesAccepteesPage />
+          </ProtectedRoute>
+        }
+      />
+
 
 
 

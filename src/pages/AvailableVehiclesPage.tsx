@@ -125,20 +125,28 @@
 
     return (
         <MainLayout>
-        <Box>
-            <Heading as="h1" size="xl" mb={6} textAlign="center">
+        <Box pt={6} px={6}>
+            <Heading
+            as="h1"
+            size="lg"
+            mb={8}
+            textAlign="center"
+            fontWeight="semibold"
+            >
             Véhicules disponibles
             </Heading>
 
+            {/* Filter bar */}
             <Center mb={10}>
             <Stack
-                direction={["column", "row"]}
+                direction={{ base: "column", md: "row" }}
                 spacing={6}
                 align="center"
                 width="100%"
-                maxW="5xl"
+                maxW="6xl"
+                justify="center"
             >
-                <Box>
+                <Box w={{ base: "100%", md: "200px" }}>
                 <Text fontSize="sm" mb={1}>
                     Marque
                 </Text>
@@ -148,7 +156,7 @@
                     onChange={(e) => setMarque(e.target.value)}
                 />
                 </Box>
-                <Box>
+                <Box w={{ base: "100%", md: "200px" }}>
                 <Text fontSize="sm" mb={1}>
                     Carburant
                 </Text>
@@ -156,18 +164,18 @@
                     value={carburant}
                     onChange={(e) => setCarburant(e.target.value)}
                 >
-                    <option value="">-- Tous --</option>
+                    <option value=""> Tous</option>
                     <option value="Essence">Essence</option>
                     <option value="Diesel">Diesel</option>
                     <option value="Électrique">Électrique</option>
                 </Select>
                 </Box>
-                <Box maxW="300px">
+                <Box w={{ base: "100%", md: "250px" }}>
                 <Text fontSize="sm" mb={1}>
                     Prix max : {prixMax} MAD
                 </Text>
                 <Slider
-                    aria-label="slider-ex"
+                    aria-label="prix-slider"
                     min={100}
                     max={1000}
                     step={50}
@@ -183,8 +191,11 @@
             </Stack>
             </Center>
 
+            {/* Cards */}
             {loading ? (
-            <Text>Chargement...</Text>
+            <Text textAlign="center" color="gray.500">
+                Chargement...
+            </Text>
             ) : (
             <SimpleGrid columns={[1, 2, 3]} spacing={6}>
                 {vehicules.map((v) => (
@@ -194,6 +205,10 @@
                     borderRadius="lg"
                     overflow="hidden"
                     p={4}
+                    bg="white"
+                    shadow="sm"
+                    transition="all 0.2s"
+                    _hover={{ shadow: "md" }}
                 >
                     {v.image_path && (
                     <Image
@@ -210,11 +225,13 @@
                         objectFit="cover"
                     />
                     )}
-                    <Text fontWeight="bold" fontSize="lg">
+                    <Text fontWeight="bold" fontSize="md" mb={1}>
                     {v.marque} {v.modele}
                     </Text>
-                    <Text fontSize="sm">{v.carburant}</Text>
-                    <Text fontSize="sm" color="blue.600">
+                    <Text fontSize="sm" mb={1}>
+                    {v.carburant}
+                    </Text>
+                    <Text fontSize="sm" color="blue.600" fontWeight="medium">
                     Prix/Jour : {v.prix_jour} MAD
                     </Text>
                     <Button
@@ -233,7 +250,7 @@
             </SimpleGrid>
             )}
 
-            {/* Modal Demande */}
+            {/* Modal for mission request */}
             {selectedVehicule && (
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />

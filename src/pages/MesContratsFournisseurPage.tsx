@@ -4,18 +4,34 @@
     import useAuthGuard from "../hooks/useAuthGuard";
     import { Download } from "lucide-react";
 
-    interface Contrat {
-    id: number;
-    vehicule_id: number;
-    vehicule_modele: string;
-    utilisateur_id: number;
-    utilisateur_nom: string;
-    date_debut: string;
-    date_fin: string;
-    statut: string;
-    date_signature: string;
-    }
+    // interface Contrat {
+    // id: number;
+    // vehicule_id: number;
+    // vehicule_modele: string;
+    // utilisateur_id: number;
+    // utilisateur_nom: string;
+    // date_debut: string;
+    // date_fin: string;
+    // statut: string;
+    // date_signature: string;
+    // }
 
+    interface Contrat {
+        id: number;
+        vehicule: {
+        id: number;
+        modele: string;
+        };
+        utilisateur: {
+        id: number;
+        nom: string;
+        };
+        date_debut: string;
+        date_fin: string;
+        statut: string;
+        date_signature: string;
+    }
+    
     const MesContratsFournisseurPage = () => {
     useAuthGuard();
     const [contrats, setContrats] = useState<Contrat[]>([]);
@@ -109,7 +125,7 @@
                 <tbody className="divide-y divide-gray-100">
                     {contrats.map((c) => (
                     <tr key={c.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4">
+                        {/* <td className="px-6 py-4">
                         {c.vehicule_modele || `ID ${c.vehicule_id}`}
                         </td>
                         <td className="px-6 py-4">
@@ -117,7 +133,14 @@
                         </td>
                         <td className="px-6 py-4">
                         {c.date_debut} → {c.date_fin}
+                        </td> */}
+                        <td className="px-6 py-4">
+                        {c.vehicule?.modele || `ID ${c.vehicule?.id}`}
                         </td>
+                        <td className="px-6 py-4">
+                        {c.utilisateur?.nom || `ID ${c.utilisateur?.id}`}
+                        </td>
+
                         <td className="px-6 py-4">{getStatutBadge(c.statut)}</td>
                         <td className="px-6 py-4">{c.date_signature}</td>
                         <td className="px-6 py-4">

@@ -8,6 +8,7 @@
     Text,
     VStack,
     useToast,
+    useColorModeValue,
     } from "@chakra-ui/react";
     import axios from "axios";
     import MainLayout from "../layouts/MainLayout";
@@ -31,6 +32,10 @@
     const [locations, setLocations] = useState<LocationItem[]>([]);
     const [loading, setLoading] = useState(true);
     const toast = useToast();
+
+    const cardBg = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.100", "gray.700");
+    const headingColor = useColorModeValue("gray.800", "gray.100");
 
     const fetchLocations = async () => {
         const token = localStorage.getItem("token");
@@ -86,57 +91,69 @@
 
     return (
         <MainLayout>
-        <Heading textAlign="center" mb={6}>
+        <Box pt={6} px={6}>
+            <Heading
+            textAlign="center"
+            size="lg"
+            mb={6}
+            fontWeight="semibold"
+            color={headingColor}
+            >
             Demandes Acceptées sans Contrat
-        </Heading>
+            </Heading>
 
-        {loading ? (
+            {loading ? (
             <Flex justify="center" align="center" minH="200px">
-            <Spinner size="lg" />
+                <Spinner size="lg" />
             </Flex>
-        ) : locations.length === 0 ? (
+            ) : locations.length === 0 ? (
             <Text textAlign="center" color="gray.500">
-            Aucune demande acceptée sans contrat.
+                Aucune demande acceptée sans contrat.
             </Text>
-        ) : (
+            ) : (
             <VStack spacing={4} align="stretch">
-            {locations.map((loc) => (
+                {locations.map((loc) => (
                 <Flex
-                key={loc.location_id}
-                justify="space-between"
-                align="center"
-                bg="white"
-                p={4}
-                rounded="md"
-                shadow="md"
-                border="1px solid"
-                borderColor="gray.100"
+                    key={loc.location_id}
+                    justify="space-between"
+                    align={{ base: "start", md: "center" }}
+                    direction={{ base: "column", md: "row" }}
+                    bg={cardBg}
+                    p={5}
+                    borderRadius="lg"
+                    shadow="sm"
+                    border="1px solid"
+                    borderColor={borderColor}
+                    gap={3}
                 >
-                <Box>
+                    <Box>
                     <Text>
-                    <strong>Mission ID :</strong> {loc.mission_id}
+                        <strong>Mission ID :</strong> {loc.mission_id}
                     </Text>
                     <Text>
-                    <strong>Utilisateur :</strong> {loc.user.nom}
+                        <strong>Utilisateur :</strong> {loc.user.nom}
                     </Text>
                     <Text>
-                    <strong>Véhicule :</strong> {loc.vehicule.modele}
+                        <strong>Véhicule :</strong> {loc.vehicule.modele}
                     </Text>
                     <Text>
-                    <strong>Du :</strong> {loc.date_debut} <strong>au</strong>{" "}
-                    {loc.date_fin}
+                        <strong>Du :</strong> {loc.date_debut} <strong>au</strong>{" "}
+                        {loc.date_fin}
                     </Text>
-                </Box>
-                <Button
+                    </Box>
+
+                    <Button
                     colorScheme="green"
+                    alignSelf={{ base: "end", md: "center" }}
                     onClick={() => genererContrat(loc.location_id)}
-                >
+                    >
                     Générer Contrat
-                </Button>
+                    </Button>
                 </Flex>
-            ))}
+                ))}
             </VStack>
-        )}
+            )}
+        </Box>
         </MainLayout>
     );
     };

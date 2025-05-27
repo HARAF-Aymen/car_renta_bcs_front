@@ -40,6 +40,9 @@
     const [contrats, setContrats] = useState<Contrat[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const cardBg = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.100", "gray.700");
+
     const fetchContrats = async () => {
         const token = localStorage.getItem("token");
         try {
@@ -84,35 +87,40 @@
         fetchContrats();
     }, []);
 
-    const cardBg = useColorModeValue("white", "gray.800");
-
     return (
         <MainLayout>
-        <Heading textAlign="center" size="lg" mb={6}>
-            Liste des Contrats
-        </Heading>
-
-        {loading ? (
-            <Flex justify="center" align="center" minH="200px">
-            <Spinner size="lg" />
-            </Flex>
-        ) : contrats.length === 0 ? (
-            <Text textAlign="center" color="gray.500">
-            Aucun contrat trouvé.
-            </Text>
-        ) : (
-            <Box
-            overflowX="auto"
-            bg={cardBg}
-            p={4}
-            rounded="md"
-            shadow="sm"
-            border="1px solid"
-            borderColor="gray.100"
+        <Box pt={6} px={6}>
+            <Heading
+            textAlign="center"
+            size="lg"
+            mb={6}
+            fontWeight="semibold"
+            color={useColorModeValue("gray.800", "gray.100")}
             >
-            <Table size="sm" variant="simple">
+            Liste des Contrats
+            </Heading>
+
+            {loading ? (
+            <Flex justify="center" align="center" minH="200px">
+                <Spinner size="lg" />
+            </Flex>
+            ) : contrats.length === 0 ? (
+            <Text textAlign="center" color="gray.500">
+                Aucun contrat trouvé.
+            </Text>
+            ) : (
+            <Box
+                overflowX="auto"
+                bg={cardBg}
+                p={4}
+                rounded="lg"
+                shadow="sm"
+                border="1px solid"
+                borderColor={borderColor}
+            >
+                <Table size="sm" variant="simple">
                 <Thead bg="gray.50">
-                <Tr>
+                    <Tr>
                     <Th>ID</Th>
                     <Th>Utilisateur</Th>
                     <Th>Véhicule</Th>
@@ -121,39 +129,41 @@
                     <Th>Statut</Th>
                     <Th>Signé le</Th>
                     <Th>PDF</Th>
-                </Tr>
+                    </Tr>
                 </Thead>
                 <Tbody>
-                {contrats.map((c) => (
-                    <Tr key={c.id}>
-                    <Td>{c.id}</Td>
-                    <Td>{c.utilisateur?.nom || "N/A"}</Td>
-                    <Td>{c.vehicule?.modele || "N/A"}</Td>
-                    <Td>{c.date_debut}</Td>
-                    <Td>{c.date_fin}</Td>
-                    <Td>
+                    {contrats.map((c) => (
+                    <Tr key={c.id} _hover={{ bg: "gray.50" }}>
+                        <Td>{c.id}</Td>
+                        <Td>{c.utilisateur?.nom || "N/A"}</Td>
+                        <Td>{c.vehicule?.modele || "N/A"}</Td>
+                        <Td>{c.date_debut}</Td>
+                        <Td>{c.date_fin}</Td>
+                        <Td>
                         <Badge
-                        colorScheme={c.statut === "SIGNÉ" ? "green" : "gray"}
+                            colorScheme={c.statut === "SIGNÉ" ? "green" : "gray"}
+                            variant="subtle"
                         >
-                        {c.statut}
+                            {c.statut}
                         </Badge>
-                    </Td>
-                    <Td>{c.date_signature}</Td>
-                    <Td>
+                        </Td>
+                        <Td>{c.date_signature}</Td>
+                        <Td>
                         <Button
-                        size="sm"
-                        colorScheme="blue"
-                        onClick={() => handleDownloadPDF(c.id)}
+                            size="sm"
+                            colorScheme="blue"
+                            onClick={() => handleDownloadPDF(c.id)}
                         >
-                        Télécharger PDF
+                            Télécharger PDF
                         </Button>
-                    </Td>
+                        </Td>
                     </Tr>
-                ))}
+                    ))}
                 </Tbody>
-            </Table>
+                </Table>
             </Box>
-        )}
+            )}
+        </Box>
         </MainLayout>
     );
     };

@@ -1,19 +1,33 @@
-    import React, { useEffect, useState } from 'react';
-    import axios from 'axios';
-    import MainLayout from '../layouts/MainLayout';
-    import useAuthGuard from '../hooks/useAuthGuard';
+    import React, { useEffect, useState } from "react";
+    import axios from "axios";
+    import MainLayout from "../layouts/MainLayout";
+    import useAuthGuard from "../hooks/useAuthGuard";
+    import {
+    Box,
+    Heading,
+    Text,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    Badge,
+    Spinner,
+    Flex,
+    useColorModeValue,
+    } from "@chakra-ui/react";
 
     interface Mission {
-        id: number;
-        vehicule_id: number;
-        vehicule_modele: string; // ✅ nouveau champ
-        date_debut: string;
-        date_fin: string;
-        status: string;
-        motif: string;
-        created_at: string;
+    id: number;
+    vehicule_id: number;
+    vehicule_modele: string;
+    date_debut: string;
+    date_fin: string;
+    status: string;
+    motif: string;
+    created_at: string;
     }
-    
 
     const MesMissionsPage = () => {
     useAuthGuard();
@@ -21,9 +35,9 @@
     const [loading, setLoading] = useState(true);
 
     const fetchMissions = async () => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         try {
-        const res = await axios.get('http://localhost:5000/api/missions/mes', {
+        const res = await axios.get("http://localhost:5000/api/missions/mes", {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
         });
@@ -40,56 +54,76 @@
     }, []);
 
     const getStatusBadge = (status: string) => {
-        const base = "inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold";
         switch (status) {
-        case 'APPROUVEE':
-            return <span className={`${base} bg-green-100 text-green-700`}>🟢 Approuvée</span>;
-        case 'REFUSEE':
-            return <span className={`${base} bg-red-100 text-red-700`}>🔴 Refusée</span>;
+        case "APPROUVEE":
+            return <Badge colorScheme="green">Approuvée</Badge>;
+        case "REFUSEE":
+            return <Badge colorScheme="red">Refusée</Badge>;
         default:
-            return <span className={`${base} bg-yellow-100 text-yellow-700`}>🟡 En attente</span>;
+            return <Badge colorScheme="yellow">En attente</Badge>;
         }
     };
 
+    const cardBg = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.100", "gray.700");
+    const headingColor = useColorModeValue("gray.800", "gray.100");
+
     return (
         <MainLayout>
-        <div className="flex flex-col items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2"> Mes Demandes de Mission</h1>
-            <p className="text-gray-500">Liste de toutes vos demandes effectuées</p>
-        </div>
+        <Box pt={6} px={6}>
+            <Box textAlign="center" mb={6}>
+            <Heading size="lg" mb={2} fontWeight="semibold" color={headingColor}>
+                Mes Demandes de Mission
+            </Heading>
+            <Text color="gray.500">Liste de toutes vos demandes effectuées</Text>
+            </Box>
 
-        {loading ? (
-            <div className="text-center text-gray-500">Chargement...</div>
-        ) : missions.length === 0 ? (
-            <div className="text-center text-gray-500">Aucune demande de mission trouvée.</div>
-        ) : (
-            <div className="overflow-x-auto bg-white rounded-lg shadow border border-gray-200 mx-auto w-full max-w-5xl">
-            <table className="min-w-full divide-y divide-gray-100">
-                <thead className="bg-gray-50 text-gray-600 text-sm">
-                <tr>
-                    <th className="px-6 py-3 text-left">Motif</th>
-                    <th className="px-6 py-3 text-left">Modèle Véhicule</th>
-                    <th className="px-6 py-3 text-left">Date début</th>
-                    <th className="px-6 py-3 text-left">Date fin</th>
-                    <th className="px-6 py-3 text-left">Statut</th>
-                    <th className="px-6 py-3 text-left">Créée le</th>
-                </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 text-sm text-gray-700">
-                {missions.map((m) => (
-                    <tr key={m.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">{m.motif}</td>
-                    <td className="px-6 py-4">{m.vehicule_modele}</td>
-                    <td className="px-6 py-4">{m.date_debut}</td>
-                    <td className="px-6 py-4">{m.date_fin}</td>
-                    <td className="px-6 py-4">{getStatusBadge(m.status)}</td>
-                    <td className="px-6 py-4">{m.created_at}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            </div>
-        )}
+            {loading ? (
+            <Flex justify="center" align="center" minH="200px">
+                <Spinner size="lg" />
+            </Flex>
+            ) : missions.length === 0 ? (
+            <Text textAlign="center" color="gray.500">
+                Aucune demande de mission trouvée.
+            </Text>
+            ) : (
+            <Box
+                overflowX="auto"
+                bg={cardBg}
+                border="1px solid"
+                borderColor={borderColor}
+                borderRadius="lg"
+                shadow="sm"
+                maxW="6xl"
+                mx="auto"
+            >
+                <Table size="sm" variant="simple">
+                <Thead bg="gray.50">
+                    <Tr>
+                    <Th>Motif</Th>
+                    <Th>Modèle Véhicule</Th>
+                    <Th>Date début</Th>
+                    <Th>Date fin</Th>
+                    <Th>Statut</Th>
+                    <Th>Créée le</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {missions.map((m) => (
+                    <Tr key={m.id} _hover={{ bg: "gray.50" }}>
+                        <Td>{m.motif}</Td>
+                        <Td>{m.vehicule_modele}</Td>
+                        <Td>{m.date_debut}</Td>
+                        <Td>{m.date_fin}</Td>
+                        <Td>{getStatusBadge(m.status)}</Td>
+                        <Td>{m.created_at}</Td>
+                    </Tr>
+                    ))}
+                </Tbody>
+                </Table>
+            </Box>
+            )}
+        </Box>
         </MainLayout>
     );
     };

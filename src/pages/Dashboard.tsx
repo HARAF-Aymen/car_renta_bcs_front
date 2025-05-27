@@ -28,6 +28,8 @@
     useAuthGuard();
     const [stats, setStats] = useState<any>(null);
     const cardBg = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.100", "gray.700");
+    const textColor = useColorModeValue("gray.700", "gray.200");
 
     useEffect(() => {
         const loadStats = async () => {
@@ -44,79 +46,88 @@
 
     return (
         <MainLayout>
-        <Heading size="lg" mb={8} color="gray.800">
+        <Box pt={6} px={6}>
+            <Heading
+            size="lg"
+            mb={8}
+            color={textColor}
+            textAlign="center"
+            fontWeight="semibold"
+            >
             Tableau de bord
-        </Heading>
+            </Heading>
 
-        {!stats ? (
+            {!stats ? (
             <Flex justify="center" align="center" minH="200px">
-            <Spinner size="lg" />
+                <Spinner size="lg" />
             </Flex>
-        ) : (
+            ) : (
             <>
-            <SimpleGrid columns={{ base: 1, sm: 2, xl: 3 }} spacing={6}>
+                <SimpleGrid columns={{ base: 1, sm: 2, xl: 3 }} spacing={6}>
                 <StatCard
-                icon={<Car size={24} color="#3182CE" />}
-                label="Véhicules au total"
-                value={stats.total_vehicules}
-                bg="blue.100"
+                    icon={<Car size={24} color="#3182CE" />}
+                    label="Véhicules au total"
+                    value={stats.total_vehicules}
+                    bg="blue.50"
                 />
                 <StatCard
-                icon={<TrendingUp size={24} color="#38A169" />}
-                label="Véhicules assignés"
-                value={stats.assigned}
-                bg="green.100"
+                    icon={<TrendingUp size={24} color="#38A169" />}
+                    label="Véhicules assignés"
+                    value={stats.assigned}
+                    bg="green.50"
                 />
                 <StatCard
-                icon={<ListOrdered size={24} color="#D69E2E" />}
-                label="Véhicules non assignés"
-                value={stats.unassigned}
-                bg="yellow.100"
+                    icon={<ListOrdered size={24} color="#D69E2E" />}
+                    label="Véhicules non assignés"
+                    value={stats.unassigned}
+                    bg="yellow.50"
                 />
                 <StatCard
-                icon={<FileText size={24} color="#805AD5" />}
-                label="Contrats ce mois"
-                value={stats.contrats_ce_mois}
-                bg="purple.100"
+                    icon={<FileText size={24} color="#805AD5" />}
+                    label="Contrats ce mois"
+                    value={stats.contrats_ce_mois}
+                    bg="purple.50"
                 />
                 <StatCard
-                icon={<Users size={24} color="#D53F8C" />}
-                label="Marques les plus louées"
-                value={
-                    Array.isArray(stats.top_marques) && stats.top_marques.length > 0
-                    ? stats.top_marques
-                        .map((b: { marque: string }) => b.marque)
-                        .join(", ")
-                    : "N/A"
-                }
-                bg="pink.100"
+                    icon={<Users size={24} color="#D53F8C" />}
+                    label="Marques les plus louées"
+                    value={
+                    Array.isArray(stats.top_marques) &&
+                    stats.top_marques.length > 0
+                        ? stats.top_marques
+                            .map((b: { marque: string }) => b.marque)
+                            .join(", ")
+                        : "N/A"
+                    }
+                    bg="pink.50"
                 />
-            </SimpleGrid>
+                </SimpleGrid>
 
-            <Box
+                <Box
                 mt={10}
                 bg={cardBg}
                 p={6}
                 rounded="lg"
                 shadow="sm"
                 border="1px solid"
-                borderColor="gray.100"
-            >
-                <Heading size="md" mb={4} color="gray.700">
-                Jours de location par mois
+                borderColor={borderColor}
+                >
+                <Heading size="md" mb={4} color={textColor}>
+                    Jours de location par mois
                 </Heading>
                 <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.monthly_rentals}>
+                    <BarChart data={stats.monthly_rentals}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
                     <Tooltip />
                     <Bar dataKey="days" fill="#3182CE" radius={[6, 6, 0, 0]} />
-                </BarChart>
+                    </BarChart>
                 </ResponsiveContainer>
-            </Box>
+                </Box>
             </>
-        )}
+            )}
+        </Box>
         </MainLayout>
     );
     };

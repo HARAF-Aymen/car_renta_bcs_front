@@ -1,4 +1,4 @@
-    import React, { useEffect, useState } from 'react';
+    import React, { useEffect, useState } from "react";
     import {
     Box,
     Heading,
@@ -14,10 +14,10 @@
     Button,
     Badge,
     useColorModeValue,
-    } from '@chakra-ui/react';
-    import MainLayout from '../layouts/MainLayout';
-    import axios from 'axios';
-    import useAuthGuard from '../hooks/useAuthGuard';
+    } from "@chakra-ui/react";
+    import MainLayout from "../layouts/MainLayout";
+    import axios from "axios";
+    import useAuthGuard from "../hooks/useAuthGuard";
 
     interface Mission {
     id: number;
@@ -39,18 +39,24 @@
     useAuthGuard();
     const [missions, setMissions] = useState<Mission[]>([]);
     const [loading, setLoading] = useState(true);
-    const [pendingLocationRequest, setPendingLocationRequest] = useState<{ mission_id: number; vehicule_id: number } | null>(null);
+    const [pendingLocationRequest, setPendingLocationRequest] = useState<{
+        mission_id: number;
+        vehicule_id: number;
+    } | null>(null);
+
+    const cardBg = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.100", "gray.700");
 
     const fetchMissions = async () => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         try {
-        const res = await axios.get('http://localhost:5000/api/missions/', {
+        const res = await axios.get("http://localhost:5000/api/missions/", {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
         });
         setMissions(res.data);
         } catch (err) {
-        console.error('Failed to fetch missions:', err);
+        console.error("Failed to fetch missions:", err);
         } finally {
         setLoading(false);
         }
@@ -60,8 +66,11 @@
         fetchMissions();
     }, []);
 
-    const handleDecision = async (missionId: number, decision: 'APPROUVEE' | 'REFUSEE') => {
-        const token = localStorage.getItem('token');
+    const handleDecision = async (
+        missionId: number,
+        decision: "APPROUVEE" | "REFUSEE"
+    ) => {
+        const token = localStorage.getItem("token");
         try {
         const res = await axios.put(
             `http://localhost:5000/api/missions/${missionId}/decision`,
@@ -72,53 +81,65 @@
             }
         );
 
-        if (decision === 'APPROUVEE' && res.data.vehicule_id) {
-            setPendingLocationRequest({ mission_id: missionId, vehicule_id: res.data.vehicule_id });
+        if (decision === "APPROUVEE" && res.data.vehicule_id) {
+            setPendingLocationRequest({
+            mission_id: missionId,
+            vehicule_id: res.data.vehicule_id,
+            });
         } else {
             fetchMissions();
         }
         } catch (err) {
-        alert('Erreur lors de la prise de décision.');
+        alert("Erreur lors de la prise de décision.");
         console.error(err);
         }
     };
 
     const createLocationRequest = async () => {
         if (!pendingLocationRequest) return;
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         try {
         await axios.post(
-            'http://localhost:5000/api/locations/',
+            "http://localhost:5000/api/locations/",
             { mission_id: pendingLocationRequest.mission_id },
             {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
             }
         );
-        alert('Demande de location créée avec succès.');
+        alert("Demande de location créée avec succès.");
         setPendingLocationRequest(null);
         fetchMissions();
         } catch (err) {
-        alert('Erreur lors de la création de la demande de location.');
+        alert("Erreur lors de la création de la demande de location.");
         console.error(err);
         }
     };
 
-    const cardBg = useColorModeValue('white', 'gray.800');
-
     return (
         <MainLayout>
-        <Heading textAlign="center" size="lg" mb={6}>Demandes de mission</Heading>
+        <Box pt={6} px={6}>
+            <Heading textAlign="center" size="lg" mb={6} fontWeight="semibold">
+            Demandes de mission
+            </Heading>
 
-        {loading ? (
+            {loading ? (
             <Flex justify="center" align="center" minH="200px">
-            <Spinner size="lg" />
+                <Spinner size="lg" />
             </Flex>
-        ) : (
-            <Box overflowX="auto" bg={cardBg} p={4} borderRadius="md" shadow="sm" border="1px solid" borderColor="gray.100">
-            <Table size="sm" variant="simple">
+            ) : (
+            <Box
+                overflowX="auto"
+                bg={cardBg}
+                p={4}
+                borderRadius="lg"
+                shadow="sm"
+                border="1px solid"
+                borderColor={borderColor}
+            >
+                <Table size="sm" variant="simple">
                 <Thead bg="gray.50">
-                <Tr>
+                    <Tr>
                     <Th>Utilisateur</Th>
                     <Th>Véhicule</Th>
                     <Th>Date début</Th>
@@ -126,81 +147,104 @@
                     <Th>Statut</Th>
                     <Th>Créée le</Th>
                     <Th>Actions</Th>
-                </Tr>
+                    </Tr>
                 </Thead>
                 <Tbody>
-                {missions.map((m) => (
-                    <Tr key={m.id}>
-                    <Td>{m.user?.nom || 'N/A'}</Td>
-                    <Td>{m.vehicule?.modele || 'N/A'}</Td>
-                    <Td>{m.date_debut}</Td>
-                    <Td>{m.date_fin}</Td>
-                    <Td>
-                        <Badge colorScheme={
-                        m.status === 'EN_ATTENTE' ? 'yellow' :
-                        m.status === 'APPROUVEE' ? 'green' :
-                        m.status === 'REFUSEE' ? 'red' : 'gray'
-                        }>
-                        {m.status}
+                    {missions.map((m) => (
+                    <Tr key={m.id} _hover={{ bg: "gray.50" }}>
+                        <Td>{m.user?.nom || "N/A"}</Td>
+                        <Td>{m.vehicule?.modele || "N/A"}</Td>
+                        <Td>{m.date_debut}</Td>
+                        <Td>{m.date_fin}</Td>
+                        <Td>
+                        <Badge
+                            colorScheme={
+                            m.status === "EN_ATTENTE"
+                                ? "yellow"
+                                : m.status === "APPROUVEE"
+                                ? "green"
+                                : m.status === "REFUSEE"
+                                ? "red"
+                                : "gray"
+                            }
+                            variant="subtle"
+                        >
+                            {m.status}
                         </Badge>
-                    </Td>
-                    <Td>{m.created_at}</Td>
-                    <Td>
-                        {m.status === 'EN_ATTENTE' ? (
-                        <Flex gap={2}>
-                            <Button size="sm" colorScheme="green" onClick={() => handleDecision(m.id, 'APPROUVEE')}>
-                            Approuver
+                        </Td>
+                        <Td>{m.created_at}</Td>
+                        <Td>
+                        {m.status === "EN_ATTENTE" ? (
+                            <Flex gap={2}>
+                            <Button
+                                size="sm"
+                                colorScheme="green"
+                                onClick={() => handleDecision(m.id, "APPROUVEE")}
+                            >
+                                Approuver
                             </Button>
-                            <Button size="sm" colorScheme="red" onClick={() => handleDecision(m.id, 'REFUSEE')}>
-                            Refuser
+                            <Button
+                                size="sm"
+                                colorScheme="red"
+                                onClick={() => handleDecision(m.id, "REFUSEE")}
+                            >
+                                Refuser
                             </Button>
-                        </Flex>
+                            </Flex>
                         ) : (
-                        <Text fontStyle="italic" color="gray.500">Traitée</Text>
+                            <Text fontStyle="italic" color="gray.500">
+                            Traitée
+                            </Text>
                         )}
-                    </Td>
+                        </Td>
                     </Tr>
-                ))}
-                {missions.length === 0 && (
+                    ))}
+                    {missions.length === 0 && (
                     <Tr>
-                    <Td colSpan={7}>
+                        <Td colSpan={7}>
                         <Text textAlign="center" color="gray.500" py={6}>
-                        Aucune demande de mission trouvée.
+                            Aucune demande de mission trouvée.
                         </Text>
-                    </Td>
+                        </Td>
                     </Tr>
-                )}
+                    )}
                 </Tbody>
-            </Table>
+                </Table>
             </Box>
-        )}
+            )}
 
-        {pendingLocationRequest && (
+            {pendingLocationRequest && (
             <Flex
-            position="fixed"
-            inset={0}
-            bg="blackAlpha.600"
-            justify="center"
-            align="center"
-            zIndex={999}
+                position="fixed"
+                inset={0}
+                bg="blackAlpha.600"
+                justify="center"
+                align="center"
+                zIndex={999}
             >
-            <Box bg="white" p={6} rounded="lg" shadow="xl" maxW="md" w="full">
-                <Heading size="md" mb={3}>Créer une demande de location</Heading>
+                <Box bg="white" p={6} rounded="xl" shadow="xl" maxW="md" w="full">
+                <Heading size="md" mb={3}>
+                    Créer une demande de location
+                </Heading>
                 <Text mb={4}>
-                Voulez-vous créer une demande de location pour le véhicule{' '}
-                <strong>{pendingLocationRequest.vehicule_id}</strong> ?
+                    Voulez-vous créer une demande de location pour le véhicule{" "}
+                    <strong>{pendingLocationRequest.vehicule_id}</strong> ?
                 </Text>
                 <Flex justify="end" gap={3}>
-                <Button variant="ghost" onClick={() => setPendingLocationRequest(null)}>
+                    <Button
+                    variant="ghost"
+                    onClick={() => setPendingLocationRequest(null)}
+                    >
                     Annuler
-                </Button>
-                <Button colorScheme="blue" onClick={createLocationRequest}>
+                    </Button>
+                    <Button colorScheme="blue" onClick={createLocationRequest}>
                     Confirmer
-                </Button>
+                    </Button>
                 </Flex>
-            </Box>
+                </Box>
             </Flex>
-        )}
+            )}
+        </Box>
         </MainLayout>
     );
     };

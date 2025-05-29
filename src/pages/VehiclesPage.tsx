@@ -129,7 +129,7 @@
             mb={8}
             >
             <Input
-                placeholder="Rechercher par marque..."
+                placeholder="Rechercher par marque"
                 value={marqueFilter}
                 onChange={(e) => setMarqueFilter(e.target.value)}
                 w={{ base: "100%", md: "300px" }}

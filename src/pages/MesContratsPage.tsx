@@ -6,7 +6,7 @@
     interface Contrat {
     id: number;
     vehicule_id: number;
-    vehicule_modele: string;
+    modele: string;
     date_debut: string;
     date_fin: string;
     statut: string;
@@ -65,11 +65,11 @@
         "inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold";
         return statut === "TERMINE" ? (
         <span className={`${base} bg-emerald-100 text-emerald-700`}>
-            ✅ Terminé
+            Terminé
         </span>
         ) : (
         <span className={`${base} bg-yellow-100 text-yellow-800`}>
-            ⏳ En cours
+            En cours
         </span>
         );
     };
@@ -105,7 +105,7 @@
                 <tbody className="divide-y divide-gray-100">
                 {contrats.map((c) => (
                     <tr key={c.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium">{c.vehicule_modele}</td>
+                    <td className="px-6 py-4 font-medium">{c.modele}</td>
                     <td className="px-6 py-4">{c.date_debut}</td>
                     <td className="px-6 py-4">{c.date_fin}</td>
                     <td className="px-6 py-4">{getStatutBadge(c.statut)}</td>

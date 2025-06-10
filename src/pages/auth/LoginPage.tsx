@@ -71,7 +71,7 @@
             Connexion
             </button>
 
-            <p className="text-center text-white text-sm mt-4">
+            {/* <p className="text-center text-white text-sm mt-4">
             Pas de compte ?{" "}
             <a
                 href="/register"
@@ -79,7 +79,7 @@
             >
                 Inscrivez-vous
             </a>
-            </p>
+            </p> */}
         </form>
         </div>
     );

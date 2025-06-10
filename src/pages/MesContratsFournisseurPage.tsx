@@ -140,6 +140,9 @@
                         <td className="px-6 py-4">
                         {c.utilisateur?.nom || `ID ${c.utilisateur?.id}`}
                         </td>
+                        <td className="px-6 py-4">
+                        {c.date_debut} → {c.date_fin}
+                        </td>
 
                         <td className="px-6 py-4">{getStatutBadge(c.statut)}</td>
                         <td className="px-6 py-4">{c.date_signature}</td>

@@ -278,7 +278,7 @@
                         />
                     </Box>
                     <Box>
-                        <Text fontSize="sm">Motif</Text>
+                        <Text fontSize="sm">Mission</Text>
                         <Textarea
                         value={motif}
                         onChange={(e) => setMotif(e.target.value)}

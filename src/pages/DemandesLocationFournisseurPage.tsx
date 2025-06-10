@@ -3,11 +3,11 @@
     import MainLayout from "../layouts/MainLayout";
 
     interface Demande {
-    id: number;
-    mission_id: number;
-    vehicule_id: number;
-    statut: string;
-    date_reception: string;
+        id: number;
+        mission_id: number;
+        vehicule_modele: string;
+        statut: string;
+        date_reception: string;
     }
 
     const DemandesRecuesFournisseur = () => {
@@ -97,11 +97,12 @@
                 {demandes.map((d) => (
                 <div key={d.id} className="border rounded-lg p-4 shadow bg-white">
                     <p className="mb-1">
-                    <strong>ID Mission :</strong> {d.mission_id}
+                    <strong>Mission N°</strong> {d.mission_id}
                     </p>
                     <p className="mb-1">
-                    <strong>ID Véhicule :</strong> {d.vehicule_id}
+                    <strong>Véhicule :</strong> {d.vehicule_modele}
                     </p>
+
                     <p className="mb-1">
                     <strong>Date de réception :</strong> {d.date_reception}
                     </p>
